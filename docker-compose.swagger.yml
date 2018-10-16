@@ -1,0 +1,30 @@
+# My Ideal Technical Stack
+# Owner: Nicolas Oudard
+# Usage: docker-compose up -d
+
+# defined the docker-compose version (needed)
+version: '3'
+
+services:
+# interface to swagger editor
+  swagger-editor:
+    image: swaggerapi/swagger-editor
+    restart: always
+# Swagger editor will be available on http://localhost:8002
+    ports:
+      - 8002:8080
+    container_name: myits-swagger-editor
+
+# DOCKER command: docker run -p 80:8080 -e API_URL=http://generator.swagger.io/api/swagger.json swaggerapi/swagger-ui
+# Swagger interface to expose the API specification
+  swagger-ui:
+    build: 
+      context: ./swagger-files
+      dockerfile: Dockerfile.swagger-ui
+    restart: always
+# Swagger UI will be available on http://localhost:8003
+    ports:
+      - 8003:8080
+    environment:
+        API_URL: http://localhost:8003/api-url/api.json
+    container_name: myits-swagger-ui

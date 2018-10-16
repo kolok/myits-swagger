@@ -1,0 +1,6 @@
+FROM swaggerapi/swagger-ui
+
+RUN mkdir /usr/share/nginx/html/api-url
+COPY api.json /usr/share/nginx/html/api-url
+
+CMD ["sh", "/usr/share/nginx/docker-run.sh"]

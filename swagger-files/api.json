@@ -1,0 +1,1237 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Here is the Swagger specification of My ideal technical stack project (MyITS). Please find more inforation in github about this project : https://github.com/kolok/technical-stack-for-b-to-c-business or in Nicolas' blog : http://blog.oudard.org/index.php/myits-menu/",
+    "version": "1.0.0",
+    "title": "MyITS API Specification",
+    "contact": {
+      "email": "nicolas@oudard.org"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "paths": {
+    "/companies": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Returns a list of companies",
+        "description": "Returns a list of companies filtered following the parameters",
+        "operationId": "getCompanyList",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status of companies to return",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name of products to return",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Company"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid value"
+          }
+        }
+      }
+    },
+    "/company": {
+      "post": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Returns the created company",
+        "description": "Returns the created company, the company is created with active status",
+        "operationId": "createCompany",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Company object to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Company"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid value"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/company/{Id}": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Find company by ID",
+        "description": "Returns a single company",
+        "operationId": "getCompanyById",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of company to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Company not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Update company by ID",
+        "description": "Update a company and return it",
+        "operationId": "updateCompanyById",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Company object to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of company to update",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          },
+          "400": {
+            "description": "Invalid ID or value supplied"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Delete company by ID",
+        "description": "Returns a single deleted company",
+        "operationId": "deleteCompanyById",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of company to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Company not found"
+          }
+        }
+      }
+    },
+    "/company/{Id}/products": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Returns products of a company",
+        "description": "Returns products of a company",
+        "operationId": "getProductsFromCompany",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of company which products is requested",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Company not found"
+          }
+        }
+      }
+    },
+    "/company/{Id}/admins": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Returns users with admin role of a company",
+        "description": "Returns users with admin role of a company",
+        "operationId": "getAdminsFromCompany",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of company which admins is requested",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Company not found"
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Returns a list of product",
+        "description": "Returns a list of product filtered following the parameters",
+        "operationId": "getProductList",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status of products to return",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name of products to return",
+            "type": "string"
+          },
+          {
+            "name": "company_id",
+            "in": "query",
+            "description": "selection via id of company that products belongs to",
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid values supplied"
+          }
+        }
+      }
+    },
+    "/product": {
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Returns the created product",
+        "description": "Returns the created product, the product is created with active status",
+        "operationId": "createProduct",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Product object to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid values supplied"
+          }
+        }
+      }
+    },
+    "/product/{Id}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Find product by ID",
+        "description": "Returns a single product",
+        "operationId": "getProductById",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of product to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Update product by ID",
+        "description": "Update a product and return it",
+        "operationId": "updateProductById",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Product object to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of product to update",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "400": {
+            "description": "Invalid values supplied"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Delete product by ID",
+        "description": "Returns a single deleted product",
+        "operationId": "deleteProductById",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of product to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      }
+    },
+    "/product/{Id}/company": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Returns company of a product",
+        "description": "Returns company of a product",
+        "operationId": "getCompanyFromProduct",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of product which company is requested",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Product or company not found"
+          }
+        }
+      }
+    },
+    "/product/{Id}/subscriptions": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Returns subscriptions of a product",
+        "description": "Returns subscriptions of a product",
+        "operationId": "getSubscriptionsFromProduct",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of product which subscriptions is requested",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Subscription"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/subscriptions": {
+      "get": {
+        "tags": [
+          "Subscription"
+        ],
+        "summary": "Returns a list of subscription",
+        "description": "Returns a list of subscription filtered following the parameters",
+        "operationId": "getSubscriptionList",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "query",
+            "description": "selection via id of product that subscriptions belongs to",
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "description": "selection via id of user that subscriptions belongs to",
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Subscription"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid values supplied"
+          }
+        }
+      }
+    },
+    "/subscription": {
+      "post": {
+        "tags": [
+          "Subscription"
+        ],
+        "summary": "Returns the created subscription",
+        "description": "Returns the created subscription",
+        "operationId": "createSubscription",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Subscription object to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Subscription"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid values supplied"
+          }
+        }
+      }
+    },
+    "/subscription/{Id}": {
+      "get": {
+        "tags": [
+          "Subscription"
+        ],
+        "summary": "Find subscription by ID",
+        "description": "Returns a single subscription",
+        "operationId": "getSubscriptionById",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of subscription to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Subscription not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Subscription"
+        ],
+        "summary": "Delete subscription by ID",
+        "description": "Returns a single deleted subscription",
+        "operationId": "deleteSubscriptionById",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of subscription to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Subscription not found"
+          }
+        }
+      }
+    },
+    "/subscription/{Id}/user": {
+      "get": {
+        "tags": [
+          "Subscription"
+        ],
+        "summary": "Returns user of a subscription",
+        "description": "Returns user of a Subscription",
+        "operationId": "getUserFromSubscription",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of subscription which user is requested",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Subscription or user not found"
+          }
+        }
+      }
+    },
+    "/subscription/{Id}/product": {
+      "get": {
+        "tags": [
+          "Subscription"
+        ],
+        "summary": "Returns product of a subscription",
+        "description": "Returns product of a Subscription",
+        "operationId": "getProductFromSubscription",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of subscription which product is requested",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Subscription or product not found"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Returns a list of user",
+        "description": "Returns a list of user filtered following the parameters",
+        "operationId": "getUserList",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status of products to return",
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "name of products to return",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name of products to return",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid values supplied"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Returns the created user",
+        "description": "Returns the created user, the user is created with active status",
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid values supplied"
+          }
+        }
+      }
+    },
+    "/user/{Id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Find user by ID",
+        "description": "Returns a single user",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user by ID",
+        "description": "Update a user and return it",
+        "operationId": "updateUserById",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of user to update",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid values supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete user by ID",
+        "description": "Returns a single deleted user",
+        "operationId": "deleteUserById",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of user to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user/{Id}/companiesusersroles": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Returns roles of a user",
+        "description": "Returns roles of a user",
+        "operationId": "getCompaniesUsersRolesFromUser",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of user which roles is requested",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CompaniesUsersRole"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user/{Id}/subscriptions": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Returns subscriptions of a user",
+        "description": "Returns subscriptions of a user",
+        "operationId": "getSubscriptionsFromUser",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of user which subscriptions is requested",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Subscription"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/admin/{Id}/companies": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Returns companies of a user is set as admin",
+        "description": "Returns companies of a user is set as admin",
+        "operationId": "getCompaniesFromAdmin",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of user who is admin of companies requested",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Company"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Company": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "example": "MyITS Compagny"
+        },
+        "created_at": {
+          "type": "integer",
+          "example": 1534882343
+        },
+        "updated_at": {
+          "type": "integer",
+          "example": 1534882343
+        },
+        "status": {
+          "type": "string",
+          "example": "active",
+          "enum": [
+            "active",
+            "inactive",
+            "deleted"
+          ]
+        },
+        "deleted_at": {
+          "type": "integer",
+          "example": 1534882343
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "email": {
+          "type": "string",
+          "example": "nicolas@oudard.org"
+        },
+        "name": {
+          "type": "string",
+          "example": "Nicolas Oudard"
+        },
+        "birthdate": {
+          "type": "string",
+          "example": "1979-08-28"
+        },
+        "profile_picture": {
+          "type": "string",
+          "example": "gs://myits-profiles/93849202836.jpeg"
+        },
+        "last_connected_at": {
+          "type": "integer",
+          "example": 1534882343
+        },
+        "created_at": {
+          "type": "integer",
+          "example": 1534882343
+        },
+        "updated_at": {
+          "type": "integer",
+          "example": 1534882343
+        },
+        "status": {
+          "type": "string",
+          "example": "active",
+          "enum": [
+            "active",
+            "inactive",
+            "deleted"
+          ]
+        },
+        "deleted_at": {
+          "type": "integer",
+          "example": 1534882343
+        }
+      }
+    },
+    "CompaniesUsersRole": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "compagny_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "role": {
+          "type": "string",
+          "example": "active",
+          "enum": [
+            "admin",
+            "employee"
+          ]
+        }
+      }
+    },
+    "Product": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "example": "MyITS Product"
+        },
+        "company_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "foreign key to company : a product belongs to a company"
+        },
+        "description": {
+          "type": "string",
+          "example": "This is my better product"
+        },
+        "picture": {
+          "type": "string",
+          "example": "gs://myits-products/93849202836.jpeg"
+        },
+        "created_at": {
+          "type": "integer",
+          "example": 1534882343
+        },
+        "updated_at": {
+          "type": "integer",
+          "example": 1534882343
+        },
+        "status": {
+          "type": "string",
+          "example": "active",
+          "enum": [
+            "active",
+            "inactive",
+            "deleted"
+          ]
+        },
+        "deleted_at": {
+          "type": "integer",
+          "example": 1534882343
+        }
+      }
+    },
+    "Subscription": {
+      "type": "object",
+      "required": [
+        "product_id",
+        "user_id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "created_at": {
+          "type": "integer",
+          "example": 1534882343
+        },
+        "updated_at": {
+          "type": "integer",
+          "example": 1534882343
+        }
+      }
+    }
+  }
+}
