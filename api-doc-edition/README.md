@@ -18,7 +18,25 @@ Launch the server
 
 ## Deploy it in prod
 
-TODO
+### Prerequist
+
+Node and NPM should be installed in your server
+
+### Deploy it 
+
+clone the project using git in $REPO of your choise
+
+  > git clone https://github.com/kolok/myits-swagger.git
+
+Configure systemd to launch your node application as it is explain in this blog:
+[https://nodesource.com/blog/running-your-node-js-app-with-systemd-part-1/](https://nodesource.com/blog/running-your-node-js-app-with-systemd-part-1/)
+
+Enable apache module proxy and proxy_http
+
+Add proxy configuration, For example :
+
+  ProxyPass "/api-docs" "http://localhost:3002/api-docs"
+  ProxyPassReverse "/api-docs" "http://localhost:3002/api-docs"
 
 ## Useful links
 
